@@ -8,12 +8,16 @@ const professionalRoutes = require('./routes/professional');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-});
-app.use('/professional', professionalRoutes);
+app
+    .use(bodyParser.json())
+    .use((req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+    })
+    .use('/professional', professionalRoutes)
+    .get('/', (req, res) => {
+        res.send('Hello World! This is the root route of the API. Use /professional to access professional data.');
+    });
 
 mongodb.initDb((err, mongodb) => {
     if (err) {
